@@ -1,0 +1,1574 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>主题大赛爆料平台 - 实时热点_视频赛事追踪</title>
+<meta name="description" content="主题大赛每日实时爆料平台官方网站，汇聚各类主题大赛的实时动态、参赛攻略与创作者影像内容，打造值得信赖的赛事内容生态。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e1726'/%3E%3Cpath d='M26 20l18 12-18 12z' fill='%23ff5a4d'/%3E%3C/svg%3E">
+<style>
+:root{
+  --tc-bg:#0e1726;
+  --tc-bg2:#111f33;
+  --tc-panel:#16273d;
+  --tc-panel2:#1c3149;
+  --tc-line:#28405f;
+  --tc-text:#e8eef7;
+  --tc-muted:#93a7c2;
+  --tc-neon:#37f2c1;
+  --tc-red:#ff5a4d;
+  --tc-amber:#ffc247;
+  --tc-radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:118px}
+body{
+  font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+  background:var(--tc-bg);color:var(--tc-text);line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+ul{list-style:none}
+
+/* ===== 吸顶区域：公告条 + 页头 ===== */
+.tc-sticky-zone{position:sticky;top:0;z-index:80}
+.tc-notice-bar{
+  background:linear-gradient(90deg,#ff5a4d,#ff9a3c 55%,#ffc247);
+  color:#17110a;font-size:13.5px;font-weight:600;
+  padding:8px 16px;display:flex;align-items:center;gap:12px;justify-content:center;
+  overflow:hidden;
+}
+.tc-notice-bar .tc-notice-tag{
+  background:#17110a;color:#ffc247;font-size:11px;font-weight:700;
+  padding:1px 8px;border-radius:20px;letter-spacing:1px;white-space:nowrap;flex:0 0 auto;
+}
+.tc-notice-track{overflow:hidden;max-width:min(860px,72vw);white-space:nowrap}
+.tc-notice-track span{display:inline-block;animation:tc-slide 22s linear infinite;padding-right:60px}
+@keyframes tc-slide{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.tc-notice-bar .tc-notice-more{flex:0 0 auto;font-size:12.5px;border-bottom:1.5px solid #17110a}
+
+.tc-header{
+  background:rgba(14,23,38,.94);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--tc-line);
+}
+.tc-header-inner{
+  max-width:1240px;margin:0 auto;padding:0 20px;height:66px;
+  display:flex;align-items:center;gap:22px;
+}
+.tc-brand{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.tc-brand-mark{
+  width:38px;height:38px;border-radius:11px;
+  background:linear-gradient(140deg,#37f2c1,#ff5a4d);
+  display:grid;place-items:center;font-weight:800;color:#0e1726;font-size:19px;
+}
+.tc-brand-name{font-size:17.5px;font-weight:800;letter-spacing:.5px;line-height:1.2}
+.tc-brand-sub{font-size:10.5px;color:var(--tc-muted);letter-spacing:2.5px}
+.tc-nav{display:flex;align-items:center;gap:4px;margin-left:6px;flex:1 1 auto;flex-wrap:wrap}
+.tc-nav a{
+  font-size:14.5px;color:#c3d2e6;padding:8px 12px;border-radius:9px;transition:.2s;
+}
+.tc-nav a:hover{color:var(--tc-neon);background:rgba(55,242,193,.09)}
+.tc-header-tools{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.tc-search{
+  display:flex;align-items:center;gap:6px;background:var(--tc-panel);
+  border:1px solid var(--tc-line);border-radius:999px;padding:5px 6px 5px 14px;
+}
+.tc-search input{
+  background:none;border:none;outline:none;color:var(--tc-text);
+  font-size:13.5px;width:150px;
+}
+.tc-search input::placeholder{color:#6e83a0}
+.tc-search button{
+  background:var(--tc-neon);color:#08201a;font-weight:700;font-size:12.5px;
+  padding:5px 12px;border-radius:999px;
+}
+.tc-btn-ghost{
+  border:1px solid var(--tc-line);border-radius:999px;padding:7px 15px;font-size:13.5px;
+  color:#d3e0f0;transition:.2s;
+}
+.tc-btn-ghost:hover{border-color:var(--tc-neon);color:var(--tc-neon)}
+.tc-burger{
+  display:none;width:42px;height:38px;border-radius:10px;border:1px solid var(--tc-line);
+  place-items:center;
+}
+.tc-burger span{display:block;width:18px;height:2px;background:#d3e0f0;margin:2.5px 0;transition:.2s}
+
+/* 搜索反馈浮层 */
+.tc-search-feedback{
+  position:fixed;z-index:120;background:var(--tc-panel2);border:1px solid var(--tc-line);
+  border-radius:12px;padding:8px;min-width:240px;max-width:320px;
+  box-shadow:0 18px 40px rgba(0,0,0,.5);display:none;
+}
+.tc-search-feedback.is-open{display:block}
+.tc-search-feedback p{font-size:12.5px;color:var(--tc-muted);padding:4px 8px 6px}
+.tc-search-feedback button{
+  display:block;width:100%;text-align:left;font-size:13px;padding:7px 9px;border-radius:8px;color:#d7e4f4;
+}
+.tc-search-feedback button:hover{background:rgba(55,242,193,.12);color:var(--tc-neon)}
+
+/* ===== 通用 ===== */
+.tc-wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+.tc-section{padding:64px 0}
+.tc-section-alt{background:var(--tc-bg2)}
+.tc-sec-head{margin-bottom:34px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.tc-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:2.5px;
+  color:var(--tc-neon);font-weight:700;text-transform:uppercase;margin-bottom:10px;
+}
+.tc-eyebrow::before{content:"";width:22px;height:2px;background:var(--tc-neon);display:block}
+.tc-h2{font-size:clamp(23px,3vw,31px);line-height:1.3;letter-spacing:.4px}
+.tc-h2 em{font-style:normal;color:var(--tc-neon)}
+.tc-sec-desc{font-size:14px;color:var(--tc-muted);max-width:520px;margin-top:8px}
+.tc-more-link{font-size:13.5px;color:var(--tc-neon);border-bottom:1px dashed rgba(55,242,193,.5);white-space:nowrap;align-self:flex-end;padding-bottom:2px}
+
+.tc-chip{
+  display:inline-block;font-size:11.5px;padding:2px 9px;border-radius:20px;
+  background:rgba(55,242,193,.12);color:var(--tc-neon);font-weight:600;
+}
+.tc-chip-red{background:rgba(255,90,77,.16);color:#ff8579}
+.tc-chip-amber{background:rgba(255,194,71,.16);color:var(--tc-amber)}
+
+/* ===== 首屏 ===== */
+.tc-hero{position:relative;overflow:hidden;padding:70px 0 60px;background:
+  radial-gradient(900px 420px at 82% -10%,rgba(55,242,193,.14),transparent 70%),
+  radial-gradient(700px 380px at 8% 110%,rgba(255,90,77,.16),transparent 70%),
+  var(--tc-bg);
+}
+.tc-hero-grid{display:grid;grid-template-columns:6fr 4fr;gap:48px;align-items:center}
+.tc-hero h1{
+  font-size:clamp(30px,4.4vw,46px);line-height:1.24;letter-spacing:1px;margin:14px 0 0;
+}
+.tc-hero h1 .tc-h1-hl{
+  background:linear-gradient(100deg,#37f2c1,#8bff9b 50%,#ffc247);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.tc-hero-slogan{font-size:16px;color:#b9cbe2;margin:16px 0 18px;max-width:560px}
+.tc-hero-intro{font-size:14.5px;color:var(--tc-muted);max-width:600px}
+.tc-hero-intro strong{color:#e4edf9;font-weight:600}
+.tc-hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.tc-btn-main{
+  background:linear-gradient(100deg,#37f2c1,#1fc7a4);color:#06231b;font-weight:700;
+  padding:12px 24px;border-radius:999px;font-size:14.5px;display:inline-flex;align-items:center;gap:8px;
+  box-shadow:0 10px 26px rgba(55,242,193,.25);transition:.2s;
+}
+.tc-btn-main:hover{transform:translateY(-2px)}
+.tc-btn-line{
+  border:1px solid var(--tc-line);padding:12px 22px;border-radius:999px;font-size:14.5px;color:#dbe7f6;
+  display:inline-flex;align-items:center;gap:8px;transition:.2s;
+}
+.tc-btn-line:hover{border-color:var(--tc-neon);color:var(--tc-neon)}
+.tc-hero-stats{display:flex;flex-wrap:wrap;gap:30px;margin-top:36px}
+.tc-hero-stats b{display:block;font-size:26px;color:#fff;letter-spacing:1px}
+.tc-hero-stats span{font-size:12.5px;color:var(--tc-muted)}
+.tc-hero-visual{position:relative}
+.tc-hero-poster{
+  border-radius:20px;overflow:hidden;border:1px solid var(--tc-line);
+  box-shadow:0 24px 60px rgba(0,0,0,.55);position:relative;
+}
+.tc-hero-poster .tc-live-badge{
+  position:absolute;top:14px;left:14px;z-index:3;background:var(--tc-red);color:#fff;
+  font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:20px;display:flex;align-items:center;gap:6px;
+}
+.tc-live-badge i{width:7px;height:7px;border-radius:50%;background:#fff;display:block;animation:tc-blink 1.4s infinite}
+@keyframes tc-blink{50%{opacity:.25}}
+.tc-hero-float{
+  position:absolute;left:-22px;bottom:26px;background:var(--tc-panel2);border:1px solid var(--tc-line);
+  border-radius:14px;padding:12px 16px;font-size:12.5px;box-shadow:0 16px 34px rgba(0,0,0,.5);
+  display:flex;gap:12px;align-items:center;max-width:250px;
+}
+.tc-hero-float b{color:var(--tc-neon);font-size:15px;display:block}
+
+/* ===== 实时爆料流 ===== */
+.tc-live-layout{display:grid;grid-template-columns:2.1fr 1fr;gap:26px;align-items:start}
+.tc-feed-card{
+  background:var(--tc-panel);border:1px solid var(--tc-line);border-radius:var(--tc-radius);
+  padding:22px 24px;transition:.25s;position:relative;overflow:hidden;
+}
+.tc-feed-card:hover{border-color:rgba(55,242,193,.5);transform:translateY(-3px)}
+.tc-feed-list{display:grid;gap:16px}
+.tc-feed-meta{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--tc-muted);flex-wrap:wrap}
+.tc-feed-meta .tc-time{color:var(--tc-amber);font-weight:600}
+.tc-feed-card h3{font-size:17px;margin:8px 0 8px;line-height:1.5}
+.tc-feed-card p{font-size:13.5px;color:var(--tc-muted)}
+.tc-feed-card .tc-feed-foot{display:flex;align-items:center;gap:14px;margin-top:14px;font-size:12.5px;color:#8ba1bd}
+.tc-feed-card .tc-feed-foot span{display:inline-flex;align-items:center;gap:5px}
+
+.tc-side-panel{
+  background:var(--tc-panel);border:1px solid var(--tc-line);border-radius:var(--tc-radius);
+  padding:20px 22px;position:sticky;top:130px;
+}
+.tc-side-panel h3{font-size:15.5px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.tc-rank-list li{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed rgba(40,64,95,.8);font-size:13.5px}
+.tc-rank-list li:last-child{border-bottom:none}
+.tc-rank-list b{
+  flex:0 0 22px;height:22px;border-radius:7px;display:grid;place-items:center;
+  background:var(--tc-panel2);color:var(--tc-neon);font-size:12px;
+}
+.tc-rank-list li:nth-child(1) b{background:var(--tc-red);color:#fff}
+.tc-rank-list li:nth-child(2) b{background:var(--tc-amber);color:#221a06}
+.tc-rank-list li:nth-child(3) b{background:#37f2c1;color:#06231b}
+.tc-rank-list small{display:block;color:var(--tc-muted);font-size:11.5px}
+
+/* ===== 热点专题 ===== */
+.tc-topic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.tc-topic-card{
+  border-radius:var(--tc-radius);overflow:hidden;background:var(--tc-panel);
+  border:1px solid var(--tc-line);display:flex;flex-direction:column;transition:.25s;
+}
+.tc-topic-card:hover{transform:translateY(-4px);border-color:rgba(255,90,77,.55)}
+.tc-topic-cover{position:relative}
+.tc-topic-cover .tc-status{
+  position:absolute;top:10px;right:10px;z-index:3;font-size:11px;font-weight:700;
+  background:rgba(14,23,38,.82);color:var(--tc-neon);border:1px solid rgba(55,242,193,.4);
+  padding:2px 9px;border-radius:20px;
+}
+.tc-topic-body{padding:16px 18px 20px}
+.tc-topic-body h3{font-size:16.5px;margin:8px 0 8px;line-height:1.45}
+.tc-topic-body p{font-size:13px;color:var(--tc-muted);margin-bottom:12px}
+.tc-topic-body .tc-topic-foot{font-size:12px;color:#8ba1bd;display:flex;justify-content:space-between;align-items:center}
+
+/* ===== 视频卡片（错落网格） ===== */
+.tc-video-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.tc-video-card{
+  background:var(--tc-panel);border:1px solid var(--tc-line);border-radius:var(--tc-radius);
+  overflow:hidden;transition:.25s;display:flex;flex-direction:column;
+}
+.tc-video-card:hover{border-color:rgba(55,242,193,.5);transform:translateY(-4px)}
+.tc-video-card.tc-wide{grid-column:span 2}
+.tc-cover-wrap{position:relative;overflow:hidden}
+.tc-cover-wrap .tc-cover-tag{
+  position:absolute;left:10px;bottom:10px;z-index:3;font-size:11px;font-weight:700;
+  background:rgba(14,23,38,.85);color:#fff;padding:2px 9px;border-radius:6px;
+}
+.tc-cover-wrap .tc-dur{
+  position:absolute;right:10px;bottom:10px;z-index:3;font-size:11px;
+  background:rgba(0,0,0,.7);color:#fff;padding:1px 7px;border-radius:5px;letter-spacing:.5px;
+}
+.tc-video-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.tc-video-body h3{font-size:15px;line-height:1.5}
+.tc-video-body p{font-size:12.5px;color:var(--tc-muted);flex:1}
+.tc-video-tags{display:flex;gap:6px;flex-wrap:wrap}
+.tc-video-meta{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:#8ba1bd;margin-top:auto}
+.tc-author-line{display:flex;align-items:center;gap:7px}
+.tc-avatar{
+  width:24px;height:24px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;
+  font-size:11.5px;font-weight:700;color:#0e1726;
+}
+.tc-actions{display:flex;gap:8px;align-items:center}
+.tc-act-btn{
+  display:inline-flex;align-items:center;gap:4px;font-size:12px;color:#93a7c2;transition:.2s;
+  padding:3px 6px;border-radius:7px;
+}
+.tc-act-btn:hover{background:rgba(55,242,193,.1);color:var(--tc-neon)}
+.tc-act-btn.is-liked{color:var(--tc-red)}
+.tc-act-btn.is-saved{color:var(--tc-amber)}
+
+/* ===== 创作者 ===== */
+.tc-creator-row{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.tc-creator-card{
+  background:linear-gradient(165deg,var(--tc-panel),var(--tc-bg2));
+  border:1px solid var(--tc-line);border-radius:var(--tc-radius);padding:22px 20px;
+  text-align:center;transition:.25s;
+}
+.tc-creator-card:hover{transform:translateY(-4px);border-color:rgba(255,194,71,.5)}
+.tc-creator-avatar{
+  width:64px;height:64px;border-radius:20px;margin:0 auto 12px;display:grid;place-items:center;
+  font-size:24px;font-weight:800;color:#0e1726;
+}
+.tc-creator-card h3{font-size:16px;margin-bottom:4px}
+.tc-creator-field{font-size:12px;color:var(--tc-neon);margin-bottom:9px}
+.tc-creator-card p{font-size:12.5px;color:var(--tc-muted);min-height:56px}
+.tc-creator-nums{display:flex;justify-content:center;gap:18px;margin-top:12px;font-size:12px;color:#8ba1bd}
+.tc-creator-nums b{color:#fff;font-size:14px;display:block}
+.tc-creator-more{margin-top:13px;font-size:12.5px;color:var(--tc-amber);border-bottom:1px dashed rgba(255,194,71,.5);display:inline-block}
+
+/* ===== 故事随笔 ===== */
+.tc-story-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.tc-story-card{
+  border-radius:var(--tc-radius);border:1px solid var(--tc-line);padding:24px 22px;
+  background:var(--tc-panel);position:relative;overflow:hidden;
+}
+.tc-story-card::before{
+  content:"";position:absolute;left:0;top:0;width:4px;height:100%;
+  background:linear-gradient(180deg,var(--tc-neon),transparent);
+}
+.tc-story-card h3{font-size:16px;margin:10px 0 10px;line-height:1.5}
+.tc-story-card p{font-size:13.5px;color:var(--tc-muted)}
+.tc-story-card .tc-story-sign{font-size:12px;color:#8ba1bd;margin-top:14px;display:block}
+
+/* ===== 合作品牌 ===== */
+.tc-partner-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.tc-partner{
+  border:1px dashed var(--tc-line);border-radius:12px;padding:18px 10px;text-align:center;
+  font-size:13px;color:#a9bdd6;letter-spacing:1px;transition:.2s;
+}
+.tc-partner:hover{border-color:var(--tc-neon);color:var(--tc-neon);background:rgba(55,242,193,.06)}
+
+/* ===== FAQ ===== */
+.tc-faq{max-width:860px;margin:0 auto;display:grid;gap:12px}
+.tc-faq details{
+  background:var(--tc-panel);border:1px solid var(--tc-line);border-radius:12px;overflow:hidden;
+}
+.tc-faq details[open]{border-color:rgba(55,242,193,.45)}
+.tc-faq summary{
+  list-style:none;cursor:pointer;padding:16px 20px;font-size:14.5px;font-weight:600;
+  display:flex;justify-content:space-between;gap:14px;align-items:center;
+}
+.tc-faq summary::-webkit-details-marker{display:none}
+.tc-faq summary::after{content:"+";font-size:19px;color:var(--tc-neon);font-weight:400}
+.tc-faq details[open] summary::after{content:"－"}
+.tc-faq .tc-faq-body{padding:0 20px 18px;font-size:13.5px;color:var(--tc-muted)}
+
+/* ===== 联系 / 动态 ===== */
+.tc-contact-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:26px}
+.tc-news-list{display:grid;gap:14px}
+.tc-news-item{
+  display:flex;gap:16px;padding:16px 18px;border:1px solid var(--tc-line);border-radius:12px;
+  background:var(--tc-panel);transition:.2s;
+}
+.tc-news-item:hover{border-color:rgba(55,242,193,.45)}
+.tc-news-date{
+  flex:0 0 auto;text-align:center;color:var(--tc-neon);font-weight:700;font-size:13px;
+  border-right:1px solid var(--tc-line);padding-right:14px;
+}
+.tc-news-date span{display:block;font-size:10.5px;color:var(--tc-muted);font-weight:400}
+.tc-news-item h3{font-size:14.5px;margin-bottom:5px}
+.tc-news-item p{font-size:12.5px;color:var(--tc-muted)}
+.tc-contact-card{
+  border:1px solid var(--tc-line);border-radius:var(--tc-radius);padding:26px 24px;
+  background:linear-gradient(160deg,var(--tc-panel2),var(--tc-panel));height:100%;
+}
+.tc-contact-card h3{font-size:18px;margin-bottom:12px}
+.tc-contact-card p{font-size:13.5px;color:var(--tc-muted);margin-bottom:18px}
+.tc-contact-line{display:flex;gap:10px;font-size:13.5px;padding:9px 0;border-bottom:1px dashed rgba(40,64,95,.8)}
+.tc-contact-line b{color:var(--tc-neon);flex:0 0 72px}
+.tc-contact-btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+
+/* ===== 深度解析（长文段） ===== */
+.tc-about-grid{display:grid;grid-template-columns:1fr 1fr;gap:38px}
+.tc-about-col p{font-size:14px;color:#b7c8dd;margin-bottom:16px;text-align:justify}
+.tc-about-col h3{font-size:17.5px;margin:22px 0 10px;color:#fff}
+.tc-about-col h3::before{content:"◈ ";color:var(--tc-amber);font-size:14px}
+.tc-about-fact{
+  margin-top:6px;padding:18px 20px;border-radius:12px;background:rgba(55,242,193,.07);
+  border:1px solid rgba(55,242,193,.25);font-size:13.5px;color:#cfe6dc;
+}
+
+/* ===== 页脚 ===== */
+.tc-footer{background:#0a121e;border-top:1px solid var(--tc-line);padding:52px 0 26px}
+.tc-footer-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:32px}
+.tc-footer h4{font-size:14px;margin-bottom:14px;color:#fff;letter-spacing:1px}
+.tc-footer p,.tc-footer li{font-size:13px;color:var(--tc-muted);margin-bottom:9px}
+.tc-footer a:hover{color:var(--tc-neon)}
+.tc-footer-bottom{
+  margin-top:36px;padding-top:20px;border-top:1px solid var(--tc-line);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12.5px;color:#7a8ea9;
+}
+
+/* ===== 浮动组件 ===== */
+.tc-toast{
+  position:fixed;left:50%;bottom:34px;transform:translate(-50%,20px);z-index:200;
+  background:#37f2c1;color:#06231b;font-weight:700;font-size:13.5px;
+  padding:11px 22px;border-radius:999px;opacity:0;pointer-events:none;transition:.3s;
+  box-shadow:0 14px 30px rgba(0,0,0,.4);
+}
+.tc-toast.is-show{opacity:1;transform:translate(-50%,0)}
+.tc-to-top{
+  position:fixed;right:22px;bottom:26px;z-index:150;width:46px;height:46px;border-radius:50%;
+  background:var(--tc-panel2);border:1px solid var(--tc-line);color:var(--tc-neon);
+  display:grid;place-items:center;font-size:18px;opacity:0;pointer-events:none;transition:.3s;
+}
+.tc-to-top.is-show{opacity:1;pointer-events:auto}
+.tc-to-top:hover{border-color:var(--tc-neon)}
+
+.tc-modal-mask{
+  position:fixed;inset:0;z-index:300;background:rgba(4,9,16,.78);backdrop-filter:blur(4px);
+  display:none;place-items:center;padding:20px;
+}
+.tc-modal-mask.is-open{display:grid}
+.tc-modal{
+  background:var(--tc-panel);border:1px solid var(--tc-line);border-radius:16px;
+  max-width:520px;width:100%;padding:26px 26px 24px;position:relative;max-height:86vh;overflow:auto;
+}
+.tc-modal h3{font-size:18px;margin-bottom:10px}
+.tc-modal p{font-size:13.5px;color:var(--tc-muted);margin-bottom:16px}
+.tc-modal label{display:block;font-size:12.5px;color:#a9bdd6;margin:12px 0 6px}
+.tc-modal input,.tc-modal textarea,.tc-modal select{
+  width:100%;background:var(--tc-bg);border:1px solid var(--tc-line);border-radius:9px;
+  padding:10px 12px;color:var(--tc-text);font-size:13.5px;outline:none;
+}
+.tc-modal input:focus,.tc-modal textarea:focus,.tc-modal select:focus{border-color:var(--tc-neon)}
+.tc-modal textarea{min-height:88px;resize:vertical}
+.tc-modal-close{
+  position:absolute;right:14px;top:12px;font-size:20px;color:#8ba1bd;line-height:1;
+}
+.tc-modal-close:hover{color:var(--tc-red)}
+.tc-share-list{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 4px}
+.tc-share-list button{
+  border:1px solid var(--tc-line);border-radius:999px;padding:8px 16px;font-size:13px;color:#d7e4f4;
+}
+.tc-share-list button:hover{border-color:var(--tc-neon);color:var(--tc-neon)}
+.tc-modal .tc-modal-foot{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap}
+
+/* ===== 响应式 ===== */
+@media(max-width:1080px){
+  .tc-hero-grid{grid-template-columns:1fr;gap:34px}
+  .tc-video-grid{grid-template-columns:repeat(3,1fr)}
+  .tc-video-card.tc-wide{grid-column:span 2}
+  .tc-topic-grid,.tc-story-grid{grid-template-columns:repeat(2,1fr)}
+  .tc-creator-row{grid-template-columns:repeat(2,1fr)}
+  .tc-live-layout{grid-template-columns:1fr}
+  .tc-side-panel{position:static}
+  .tc-partner-grid{grid-template-columns:repeat(3,1fr)}
+  .tc-about-grid,.tc-contact-grid{grid-template-columns:1fr}
+  .tc-footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:820px){
+  .tc-nav{
+    display:none;position:absolute;left:0;right:0;top:100%;
+    background:var(--tc-bg2);border-bottom:1px solid var(--tc-line);
+    flex-direction:column;align-items:stretch;padding:10px 16px 16px;gap:2px;
+  }
+  .tc-nav.is-open{display:flex}
+  .tc-nav a{padding:11px 12px}
+  .tc-header-inner{position:relative;height:62px;gap:12px}
+  .tc-burger{display:grid}
+  .tc-search{display:none}
+  .tc-btn-ghost{display:none}
+  .tc-video-grid{grid-template-columns:repeat(2,1fr)}
+  .tc-video-card.tc-wide{grid-column:span 2}
+  .tc-hero-float{display:none}
+  .tc-hero{padding:48px 0 46px}
+}
+@media(max-width:560px){
+  .tc-topic-grid,.tc-story-grid,.tc-creator-row{grid-template-columns:1fr}
+  .tc-video-grid{grid-template-columns:1fr}
+  .tc-video-card.tc-wide{grid-column:span 1}
+  .tc-partner-grid{grid-template-columns:repeat(2,1fr)}
+  .tc-footer-grid{grid-template-columns:1fr}
+  .tc-hero-stats{gap:20px}
+  .tc-notice-track{max-width:60vw}
+  .tc-section{padding:48px 0}
+}
+</style>
+<script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</head>
+<body>
+
+<div class="tc-sticky-zone">
+  <div class="tc-notice-bar">
+    <span class="tc-notice-tag">实时爆料</span>
+    <div class="tc-notice-track">
+      <span>【11月19日 07:40】第12届城市影像主题大赛 初赛名单已更新，本轮新增168件入围作品&nbsp;&nbsp;·&nbsp;&nbsp;【11月18日 21:05】“青年创意挑战赛” 赛道三评审分组公布&nbsp;&nbsp;·&nbsp;&nbsp;【11月18日 15:20】平台新增3档专题直播排期，可在专题页查看时间表&nbsp;&nbsp;·&nbsp;&nbsp;【11月17日 18:00】投稿通道升级，单条视频最大支持4GB上传&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+    </div>
+    <a class="tc-notice-more" href="#tc-live">爆料详情</a>
+  </div>
+
+  <header class="tc-header">
+    <div class="tc-header-inner">
+      <a class="tc-brand" href="#tc-top" aria-label="主题大赛实时爆料平台官方网站首页">
+        <span class="tc-brand-mark">爆</span>
+        <span>
+          <span class="tc-brand-name">主题大赛爆料平台</span>
+          <span class="tc-brand-sub">LIVE CONTEST RADAR</span>
+        </span>
+      </a>
+      <nav class="tc-nav" id="tcMainNav" aria-label="主导航">
+        <a href="#tc-top">首页</a>
+        <a href="#tc-live">实时爆料</a>
+        <a href="#tc-topics">热点专题</a>
+        <a href="#tc-videos">精选影像</a>
+        <a href="#tc-creators">创作者</a>
+        <a href="#tc-stories">幕后随笔</a>
+        <a href="#tc-about">品牌故事</a>
+        <a href="#tc-faq">帮助中心</a>
+        <a href="#tc-contact">联系我们</a>
+      </nav>
+      <div class="tc-header-tools">
+        <form class="tc-search" id="tcSearchForm" role="search" onsubmit="return false;">
+          <input id="tcSearchInput" type="search" placeholder="搜索赛事 / 创作者 / 专题" aria-label="站内搜索">
+          <button type="button" id="tcSearchBtn">搜索</button>
+        </form>
+        <button class="tc-btn-ghost" type="button" data-tc-modal="submit">我要爆料</button>
+        <button class="tc-burger" id="tcBurger" type="button" aria-label="展开导航" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+</div>
+
+<div class="tc-search-feedback" id="tcSearchFeedback" role="status" aria-live="polite"></div>
+
+<main id="tc-top">
+
+  <!-- 首屏 -->
+  <section class="tc-hero">
+    <div class="tc-wrap tc-hero-grid">
+      <div>
+        <span class="tc-eyebrow">官方网站 · 每日实时更新</span>
+        <h1>主题大赛<span class="tc-h1-hl">爆料平台</span></h1>
+        <p class="tc-hero-slogan">每天第一时间，把大赛现场的最新动向、评审动向与创作者故事，稳稳送到你手里。</p>
+        <p class="tc-hero-intro">
+          作为国内专注主题大赛资讯的<strong>官方网站</strong>，我们以「实时、真实、可用」为原则，为参赛者、评审机构与影像创作者搭建高品质内容生态。
+          平台以<strong>企业级</strong>运营标准持续追踪各类主题大赛的赛程进展、投稿反馈、入围名单与幕后花絮，用短视频、图文与专题直播的方式把复杂的赛事信息拆解成可看的片段。
+          从报名规则到作品打磨，从创意灵感到投稿攻略，我们坚持以<strong>用户至上</strong>的匠心，让每一次参赛都有据可依、有迹可循。
+        </p>
+        <div class="tc-hero-actions">
+          <a class="tc-btn-main" href="#tc-live">查看今日爆料 <span aria-hidden="true">→</span></a>
+          <a class="tc-btn-line" href="#tc-videos">浏览精选影像</a>
+          <button class="tc-btn-line" type="button" data-tc-modal="share">分享给同伴</button>
+        </div>
+        <div class="tc-hero-stats">
+          <div><b>128</b><span>正在进行的主题大赛</span></div>
+          <div><b>2.4万</b><span>累计收录爆料条目</span></div>
+          <div><b>860+</b><span>认证创作者与评审</span></div>
+        </div>
+      </div>
+      <div class="tc-hero-visual">
+        <div class="tc-hero-poster">
+          <span class="tc-live-badge"><i></i>LIVE</span>
+          <svg viewBox="0 0 640 380" role="img" aria-label="主题大赛爆料平台实时赛事大屏主视觉">
+            <defs>
+              <linearGradient id="tcHeroG1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#0f2c3f"/><stop offset="1" stop-color="#1b1533"/>
+              </linearGradient>
+              <linearGradient id="tcHeroG2" x1="0" y1="1" x2="1" y2="0">
+                <stop offset="0" stop-color="#37f2c1"/><stop offset="1" stop-color="#ffc247"/>
+              </linearGradient>
+            </defs>
+            <rect width="640" height="380" fill="url(#tcHeroG1)"/>
+            <g stroke="#28405f" stroke-width="1" opacity=".7">
+              <path d="M0 95h640M0 190h640M0 285h640M160 0v380M320 0v380M480 0v380"/>
+            </g>
+            <circle cx="470" cy="120" r="86" fill="none" stroke="#37f2c1" stroke-width="2" opacity=".55"/>
+            <circle cx="470" cy="120" r="58" fill="none" stroke="#ffc247" stroke-width="2" opacity=".5"/>
+            <circle cx="470" cy="120" r="26" fill="#ff5a4d" opacity=".85"/>
+            <path d="M118 268l64-44 58 32 74-58 66 40 74-56" fill="none" stroke="url(#tcHeroG2)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <g fill="#e8eef7" opacity=".9">
+              <rect x="96" y="112" width="152" height="12" rx="6"/>
+              <rect x="96" y="136" width="104" height="12" rx="6" opacity=".6"/>
+              <rect x="96" y="160" width="126" height="12" rx="6" opacity=".4"/>
+            </g>
+            <g fill="#37f2c1">
+              <rect x="96" y="300" width="60" height="34" rx="7" opacity=".85"/>
+              <rect x="166" y="300" width="60" height="34" rx="7" opacity=".55"/>
+              <rect x="236" y="300" width="60" height="34" rx="7" opacity=".3"/>
+            </g>
+            <g transform="translate(490,300)">
+              <rect x="-64" y="-22" width="128" height="44" rx="22" fill="#0e1726" stroke="#37f2c1" stroke-width="1.6"/>
+              <path d="M-20-9l16 9-16 9z" fill="#ff5a4d"/>
+              <text x="12" y="6" font-size="16" fill="#e8eef7" font-family="sans-serif" text-anchor="middle">爆料中</text>
+            </g>
+          </svg>
+        </div>
+        <div class="tc-hero-float">
+          <div>
+            <b>+168</b>
+            <span>今日初赛入围新增</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 实时爆料流 -->
+  <section class="tc-section" id="tc-live">
+    <div class="tc-wrap">
+      <div class="tc-sec-head">
+        <div>
+          <span class="tc-eyebrow">Live Feed</span>
+          <h2 class="tc-h2">每日<em>实时爆料</em>，赛程变动不漏一条</h2>
+          <p class="tc-sec-desc">由平台编辑团队与在地观察员共同维护，条目均标注时间与来源类型，方便参赛者快速判断是否需要调整投稿计划。</p>
+        </div>
+        <a class="tc-more-link" href="#tc-topics">按专题查看 →</a>
+      </div>
+
+      <div class="tc-live-layout">
+        <div class="tc-feed-list">
+          <article class="tc-feed-card">
+            <div class="tc-feed-meta"><span class="tc-time">11月19日 07:40</span><span class="tc-chip">赛程</span><span>城市影像主题大赛</span></div>
+            <h3>初赛入围名单第三批公布，纪实与实验短片两组占比明显提升</h3>
+            <p>本轮新增入围作品168件，其中纪实单元92件、实验短片单元76件。评审组在备注中提到，本年度参赛作品对「在地文化」的表达更为具体，单纯风景航拍类作品通过率下降约两成。建议后续投稿者补充人物线索与叙述动机。</p>
+            <div class="tc-feed-foot"><span>编辑：岚序</span><span>来源：组委会公示</span><span>已核实</span></div>
+          </article>
+
+          <article class="tc-feed-card">
+            <div class="tc-feed-meta"><span class="tc-time">11月18日 21:05</span><span class="tc-chip tc-chip-amber">评审</span><span>青年创意挑战赛</span></div>
+            <h3>赛道三评审分组公布，新增「脚本可执行性」评分维度</h3>
+            <p>青年创意挑战赛组委会于昨晚发布赛道三评审安排，评委共分四组，每组五人。本年度新增「脚本可执行性」评分项，占比15%，主要考察创意是否能在有限预算与拍摄周期内落地。参赛者可在作品说明中补充执行方案。</p>
+            <div class="tc-feed-foot"><span>编辑：迟野</span><span>来源：官方发布</span><span>已核实</span></div>
+          </article>
+
+          <article class="tc-feed-card">
+            <div class="tc-feed-meta"><span class="tc-time">11月18日 15:20</span><span class="tc-chip tc-chip-red">直播</span><span>平台专题直播</span></div>
+            <h3>三档专题直播排期确认：赛制拆解、剪辑工作流与投稿答疑</h3>
+            <p>本周平台将上线三场专题直播，分别围绕赛制条文拆解、短视频剪辑工作流与投稿常见驳回原因展开。每场直播后会在专题页更新要点笔记，便于错过直播的参赛者回看文字版精华内容。</p>
+            <div class="tc-feed-foot"><span>编辑：平台运营组</span><span>来源：排期公告</span><span>可预约</span></div>
+          </article>
+
+          <article class="tc-feed-card">
+            <div class="tc-feed-meta"><span class="tc-time">11月17日 18:00</span><span class="tc-chip">功能</span><span>投稿系统</span></div>
+            <h3>投稿通道升级：单条视频最大支持4GB上传，支持断点续传</h3>
+            <p>投稿系统完成本轮升级，单条视频上限提升至4GB，新增断点续传与素材分批上传能力。同时后台会给出码率、时长与画幅的基础合规提示，减少因技术参数问题造成的驳回。建议参赛者在提交前先跑一次预检。</p>
+            <div class="tc-feed-foot"><span>编辑：产品组</span><span>来源：版本更新</span><span>已上线</span></div>
+          </article>
+
+          <article class="tc-feed-card">
+            <div class="tc-feed-meta"><span class="tc-time">11月17日 10:15</span><span class="tc-chip tc-chip-amber">口碑</span><span>参赛者反馈</span></div>
+            <h3>「作品被驳回最常见原因」统计出炉，声音电平占首位</h3>
+            <p>根据近三个月参赛者反馈汇总，因声音电平过低或不一致被要求补交的作品占驳回总量的三成以上，其次为片尾字幕缺失授权信息。平台已在帮助中心补充对应的自检清单，投稿前建议逐项核对。</p>
+            <div class="tc-feed-foot"><span>编辑：岚序</span><span>来源：数据汇总</span><span>已核实</span></div>
+          </article>
+        </div>
+
+        <aside class="tc-side-panel">
+          <h3><span class="tc-chip tc-chip-red">热榜</span>今日爆料热度榜</h3>
+          <ol class="tc-rank-list">
+            <li><b>1</b><div>城市影像主题大赛入围名单<small>3.2万次查看 · 12分钟前更新</small></div></li>
+            <li><b>2</b><div>青年创意挑战赛评审分组<small>2.7万次查看 · 昨晚发布</small></div></li>
+            <li><b>3</b><div>投稿系统4GB上限升级<small>1.9万次查看 · 2天前</small></div></li>
+            <li><b>4</b><div>声音电平驳回原因统计<small>1.4万次查看 · 2天前</small></div></li>
+            <li><b>5</b><div>实验短片单元评审偏好<small>1.1万次查看 · 3天前</small></div></li>
+            <li><b>6</b><div>新人赛道报名注意事项<small>9800次查看 · 4天前</small></div></li>
+          </ol>
+          <a class="tc-more-link" href="#tc-about" style="display:inline-block;margin-top:16px">了解爆料核实流程 →</a>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 热点专题 -->
+  <section class="tc-section tc-section-alt" id="tc-topics">
+    <div class="tc-wrap">
+      <div class="tc-sec-head">
+        <div>
+          <span class="tc-eyebrow">Topics</span>
+          <h2 class="tc-h2">热点<em>专题</em>：把一场大赛看明白</h2>
+          <p class="tc-sec-desc">每个专题由平台编辑与评审观察员共同维护，包含赛制拆解、作品解读与创作者访谈，持续更新至赛事收官。</p>
+        </div>
+        <a class="tc-more-link" href="#tc-videos">更多影像内容 →</a>
+      </div>
+
+      <div class="tc-topic-grid">
+        <article class="tc-topic-card">
+          <div class="tc-topic-cover">
+            <span class="tc-status">更新中 · 12条</span>
+            <svg viewBox="0 0 480 270" role="img" aria-label="城市影像主题大赛专题封面：夜色中的城市天际线与光轨">
+              <defs><linearGradient id="tcTp1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12283d"/><stop offset="1" stop-color="#2a1430"/></linearGradient></defs>
+              <rect width="480" height="270" fill="url(#tcTp1)"/>
+              <g fill="#1d3a56">
+                <rect x="40" y="130" width="46" height="140"/><rect x="96" y="96" width="38" height="174"/>
+                <rect x="144" y="150" width="52" height="120"/><rect x="206" y="76" width="42" height="194"/>
+                <rect x="258" y="122" width="36" height="148"/><rect x="304" y="104" width="50" height="166"/>
+                <rect x="364" y="146" width="40" height="124"/><rect x="414" y="110" width="34" height="160"/>
+              </g>
+              <g fill="#37f2c1" opacity=".85">
+                <rect x="104" y="112" width="8" height="8"/><rect x="118" y="130" width="8" height="8"/>
+                <rect x="212" y="96" width="8" height="8"/><rect x="228" y="120" width="8" height="8"/>
+                <rect x="312" y="124" width="8" height="8"/><rect x="374" y="160" width="8" height="8"/>
+              </g>
+              <path d="M0 240c80-34 150 12 226-16 74-27 146 18 254-8" fill="none" stroke="#ffc247" stroke-width="3" opacity=".8"/>
+              <path d="M0 258c86-24 156 18 240-8 70-22 148 16 240-6" fill="none" stroke="#ff5a4d" stroke-width="2" opacity=".7"/>
+            </svg>
+          </div>
+          <div class="tc-topic-body">
+            <span class="tc-chip">深度</span>
+            <h3>城市影像主题大赛：纪实单元为何青睐「人物线索」</h3>
+            <p>从三届入围作品的数据看，含明确人物线索的短片通过率高出平均值近两成，本期专题拆解评审笔记中的高频关键词。</p>
+            <div class="tc-topic-foot"><span>编辑：岚序</span><span>11月19日更新</span></div>
+          </div>
+        </article>
+
+        <article class="tc-topic-card">
+          <div class="tc-topic-cover">
+            <span class="tc-status">更新中 · 9条</span>
+            <svg viewBox="0 0 480 270" role="img" aria-label="青年创意挑战赛专题封面：创意脚本分镜与彩色色块">
+              <rect width="480" height="270" fill="#132033"/>
+              <g>
+                <rect x="34" y="36" width="128" height="88" rx="10" fill="#1f3a55" stroke="#37f2c1" stroke-width="2"/>
+                <rect x="178" y="36" width="128" height="88" rx="10" fill="#1f3a55" stroke="#ffc247" stroke-width="2"/>
+                <rect x="322" y="36" width="124" height="88" rx="10" fill="#1f3a55" stroke="#ff5a4d" stroke-width="2"/>
+                <path d="M62 100l26-30 20 18 24-24" fill="none" stroke="#37f2c1" stroke-width="3" stroke-linecap="round"/>
+                <path d="M206 104l30-40 24 24 22-18" fill="none" stroke="#ffc247" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="384" cy="80" r="26" fill="none" stroke="#ff5a4d" stroke-width="3"/>
+                <path d="M374 68l22 12-22 12z" fill="#ff5a4d"/>
+              </g>
+              <g fill="#e8eef7" opacity=".7">
+                <rect x="34" y="152" width="200" height="11" rx="5.5"/>
+                <rect x="34" y="176" width="150" height="11" rx="5.5" opacity=".6"/>
+                <rect x="34" y="200" width="176" height="11" rx="5.5" opacity=".4"/>
+              </g>
+              <g fill="#37f2c1" opacity=".9">
+                <rect x="34" y="232" width="72" height="24" rx="12"/>
+                <rect x="116" y="232" width="72" height="24" rx="12" opacity=".6"/>
+              </g>
+            </svg>
+          </div>
+          <div class="tc-topic-body">
+            <span class="tc-chip tc-chip-amber">评审</span>
+            <h3>青年创意挑战赛：脚本可执行性到底怎么打分</h3>
+            <p>四位评委接受平台访谈，谈预算、周期与创意的平衡点，并给出可直接套用的脚本自查清单。</p>
+            <div class="tc-topic-foot"><span>编辑：迟野</span><span>11月18日更新</span></div>
+          </div>
+        </article>
+
+        <article class="tc-topic-card">
+          <div class="tc-topic-cover">
+            <span class="tc-status">更新中 · 7条</span>
+            <svg viewBox="0 0 480 270" role="img" aria-label="新人赛道指南专题封面：阶梯路径与方向标">
+              <rect width="480" height="270" fill="#101f2b"/>
+              <g fill="none" stroke="#2f5273" stroke-width="2">
+                <path d="M40 230h120v-40h120v-40h120v-40h40"/>
+              </g>
+              <g fill="#37f2c1">
+                <circle cx="40" cy="230" r="8"/><circle cx="160" cy="190" r="8"/>
+                <circle cx="280" cy="150" r="8"/><circle cx="400" cy="110" r="8"/>
+              </g>
+              <path d="M400 110l-24-10 0 20z" fill="#ffc247"/>
+              <g fill="#e8eef7" opacity=".85">
+                <rect x="52" y="60" width="164" height="13" rx="6.5"/>
+                <rect x="52" y="86" width="118" height="13" rx="6.5" opacity=".6"/>
+              </g>
+              <rect x="300" y="180" width="140" height="52" rx="12" fill="#1c3149" stroke="#ff5a4d" stroke-width="2"/>
+              <text x="370" y="212" font-size="20" fill="#ff5a4d" font-family="sans-serif" text-anchor="middle">START</text>
+            </svg>
+          </div>
+          <div class="tc-topic-body">
+            <span class="tc-chip tc-chip-red">新人</span>
+            <h3>第一次参加主题大赛：从选题到交片的六步清单</h3>
+            <p>面向首次参赛者的完整攻略，涵盖选题判断、拍摄排期、素材备份与投稿预检，附常见误区示例。</p>
+            <div class="tc-topic-foot"><span>编辑：平台运营组</span><span>11月17日更新</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 精选影像（视频卡片） -->
+  <section class="tc-section" id="tc-videos">
+    <div class="tc-wrap">
+      <div class="tc-sec-head">
+        <div>
+          <span class="tc-eyebrow">Selected Videos</span>
+          <h2 class="tc-h2">精选<em>影像</em>：大赛现场与幕后</h2>
+          <p class="tc-sec-desc">由平台编辑团队挑选的原创短片、评审访谈与现场记录，画质高清、信息具体，帮助你在几分钟内抓住赛事重点。</p>
+        </div>
+        <a class="tc-more-link" href="#tc-creators">认识创作者 →</a>
+      </div>
+
+      <div class="tc-video-grid">
+        <article class="tc-video-card tc-wide">
+          <div class="tc-cover-wrap">
+            <span class="tc-cover-tag">现场记录</span>
+            <span class="tc-dur">08:42</span>
+            <svg viewBox="0 0 640 360" role="img" aria-label="城市影像大赛初赛评审现场记录视频封面">
+              <defs><linearGradient id="tcV1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f2b3e"/><stop offset="1" stop-color="#241a3d"/></linearGradient></defs>
+              <rect width="640" height="360" fill="url(#tcV1)"/>
+              <rect x="60" y="60" width="250" height="152" rx="10" fill="#16273d" stroke="#28405f" stroke-width="2"/>
+              <rect x="82" y="84" width="150" height="12" rx="6" fill="#37f2c1" opacity=".8"/>
+              <rect x="82" y="108" width="112" height="12" rx="6" fill="#e8eef7" opacity=".4"/>
+              <rect x="82" y="132" width="134" height="12" rx="6" fill="#e8eef7" opacity=".25"/>
+              <g fill="#1c3149" stroke="#37f2c1" stroke-width="1.5">
+                <rect x="352" y="60" width="108" height="72" rx="8"/>
+                <rect x="472" y="60" width="108" height="72" rx="8"/>
+                <rect x="352" y="144" width="108" height="72" rx="8"/>
+                <rect x="472" y="144" width="108" height="72" rx="8"/>
+              </g>
+              <g fill="#ffc247" opacity=".85">
+                <circle cx="406" cy="96" r="12"/><circle cx="526" cy="96" r="12"/>
+                <circle cx="406" cy="180" r="12"/><circle cx="526" cy="180" r="12"/>
+              </g>
+              <rect x="60" y="248" width="520" height="8" rx="4" fill="#28405f"/>
+              <rect x="60" y="248" width="352" height="8" rx="4" fill="#37f2c1"/>
+              <circle cx="412" cy="252" r="11" fill="#ff5a4d"/>
+              <g fill="#e8eef7" opacity=".8">
+                <rect x="60" y="286" width="190" height="12" rx="6"/>
+                <rect x="60" y="310" width="132" height="12" rx="6" opacity=".5"/>
+              </g>
+              <path d="M560 300l24 14-24 14z" fill="#37f2c1"/>
+            </svg>
+          </div>
+          <div class="tc-video-body">
+            <h3>走进初赛评审室：168件入围作品是怎么筛出来的</h3>
+            <p>全程记录一次评审会，从分组初筛到交叉复核，展示评审打分表结构与争议作品的讨论过程，附带组委会对驳回意见的说明口径。</p>
+            <div class="tc-video-tags"><span class="tc-chip">现场记录</span><span class="tc-chip-amber">评审流程</span><span class="tc-chip-red">8分42秒</span></div>
+            <div class="tc-video-meta">
+              <span class="tc-author-line"><span class="tc-avatar" style="background:linear-gradient(140deg,#37f2c1,#0f8f76)">岚</span>岚序</span>
+              <span class="tc-actions">
+                <button class="tc-act-btn" type="button" data-tc-like>♡ 1.8万</button>
+                <button class="tc-act-btn" type="button" data-tc-save>☆ 收藏</button>
+                <button class="tc-act-btn" type="button" data-tc-comment>评论</button>
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="tc-video-card">
+          <div class="tc-cover-wrap">
+            <span class="tc-cover-tag">人物访谈</span>
+            <span class="tc-dur">05:16</span>
+            <svg viewBox="0 0 320 180" role="img" aria-label="评审访谈视频封面：评委在灯下阅读作品说明">
+              <rect width="320" height="180" fill="#141c2e"/>
+              <circle cx="106" cy="72" r="34" fill="#27405e"/>
+              <path d="M56 160c6-32 30-48 50-48s44 16 50 48z" fill="#27405e"/>
+              <rect x="178" y="46" width="104" height="70" rx="8" fill="#1c3149" stroke="#ffc247" stroke-width="2"/>
+              <g fill="#ffc247" opacity=".8">
+                <rect x="192" y="62" width="60" height="7" rx="3.5"/>
+                <rect x="192" y="78" width="76" height="7" rx="3.5" opacity=".6"/>
+                <rect x="192" y="94" width="48" height="7" rx="3.5" opacity=".4"/>
+              </g>
+              <path d="M246 138l16-22 16 22z" fill="#ff5a4d"/>
+            </svg>
+          </div>
+          <div class="tc-video-body">
+            <h3>评委聊脚本可执行性：创意不是越贵越好</h3>
+            <p>四位评委谈预算与创意的平衡，给出新人常忽略的执行方案写法。</p>
+            <div class="tc-video-tags"><span class="tc-chip-amber">访谈</span></div>
+            <div class="tc-video-meta">
+              <span class="tc-author-line"><span class="tc-avatar" style="background:linear-gradient(140deg,#ffc247,#c47a12)">迟</span>迟野</span>
+              <span class="tc-actions"><button class="tc-act-btn" type="button" data-tc-like>♡ 9640</button></span>
+            </div>
+          </div>
+        </article>
+
+        <article class="tc-video-card">
+          <div class="tc-cover-wrap">
+            <span class="tc-cover-tag">教程干货</span>
+            <span class="tc-dur">11:03</span>
+            <svg viewBox="0 0 320 180" role="img" aria-label="剪辑工作流教程视频封面：时间线与轨道界面">
+              <rect width="320" height="180" fill="#101d29"/>
+              <rect x="20" y="26" width="280" height="24" rx="6" fill="#1c3149"/>
+              <g fill="#37f2c1" opacity=".9">
+                <rect x="28" y="34" width="52" height="8" rx="4"/><rect x="92" y="34" width="30" height="8" rx="4" opacity=".6"/>
+              </g>
+              <g>
+                <rect x="20" y="62" width="180" height="18" rx="5" fill="#2b6f8f"/>
+                <rect x="118" y="88" width="140" height="18" rx="5" fill="#2b8f76"/>
+                <rect x="40" y="114" width="210" height="18" rx="5" fill="#8f6f2b"/>
+                <rect x="20" y="140" width="120" height="18" rx="5" fill="#6f2b8f"/>
+              </g>
+              <path d="M252 66v96" stroke="#ff5a4d" stroke-width="3"/>
+              <path d="M246 60h12l-6 10z" fill="#ff5a4d"/>
+            </svg>
+          </div>
+          <div class="tc-video-body">
+            <h3>四轨剪辑法：把大赛素材整理成可交付版本</h3>
+            <p>从素材命名到导出参数，演示一套可在一天内完成初剪的工作流。</p>
+            <div class="tc-video-tags"><span class="tc-chip">教程</span><span class="tc-chip-red">工作流</span></div>
+            <div class="tc-video-meta">
+              <span class="tc-author-line"><span class="tc-avatar" style="background:linear-gradient(140deg,#5ad1ff,#1a6fa8)">未</span>未白</span>
+              <span class="tc-actions"><button class="tc-act-btn" type="button" data-tc-like>♡ 1.2万</button></span>
+            </div>
+          </div>
+        </article>
+
+        <article class="tc-video-card">
+          <div class="tc-cover-wrap">
+            <span class="tc-cover-tag">城市探索</span>
+            <span class="tc-dur">06:38</span>
+            <svg viewBox="0 0 320 180" role="img" aria-label="城市探索视频封面：老街区巷口的晨光与自行车">
+              <rect width="320" height="180" fill="#1a2130"/>
+              <rect x="0" y="120" width="320" height="60" fill="#26313f"/>
+              <g fill="#2f4055">
+                <rect x="24" y="52" width="70" height="68"/><rect x="102" y="36" width="58" height="84"/>
+                <rect x="170" y="62" width="66" height="58"/><rect x="246" y="46" width="52" height="74"/>
+              </g>
+              <g fill="#ffc247" opacity=".9">
+                <rect x="38" y="66" width="16" height="16"/><rect x="64" y="66" width="16" height="16"/>
+                <rect x="116" y="52" width="14" height="14"/><rect x="140" y="52" width="14" height="14"/>
+              </g>
+              <circle cx="120" cy="146" r="16" fill="none" stroke="#37f2c1" stroke-width="3"/>
+              <circle cx="176" cy="146" r="16" fill="none" stroke="#37f2c1" stroke-width="3"/>
+              <path d="M120 146l28-30h28M176 146l-18-30" fill="none" stroke="#37f2c1" stroke-width="3"/>
+              <path d="M0 24c60 14 120-8 180 6s96 0 140-8" fill="none" stroke="#ff5a4d" stroke-width="2" opacity=".5"/>
+            </svg>
+          </div>
+          <div class="tc-video-body">
+            <h3>跟着参赛者逛老街：一条巷子拍出三种叙事</h3>
+            <p>同一场景，三种拍摄路径，展示在地文化题材如何找到具体人物。</p>
+            <div class="tc-video-tags"><span class="tc-chip">城市探索</span><span class="tc-chip-amber">在地文化</span></div>
+            <div class="tc-video-meta">
+              <span class="tc-author-line"><span class="tc-avatar" style="background:linear-gradient(140deg,#ff8a6b,#c2401f)">南</span>南渠</span>
+              <span class="tc-actions"><button class="tc-act-btn" type="button" data-tc-like>♡ 7360</button></span>
+            </div>
+          </div>
+        </article>
+
+        <article class="tc-video-card">
+          <div class="tc-cover-wrap">
+            <span class="tc-cover-tag">赛制拆解</span>
+            <span class="tc-dur">04:22</span>
+            <svg viewBox="0 0 320 180" role="img" aria-label="赛制拆解视频封面：条文清单与高亮标记">
+              <rect width="320" height="180" fill="#131f2f"/>
+              <rect x="40" y="24" width="240" height="132" rx="10" fill="#1c3149" stroke="#28405f" stroke-width="2"/>
+              <g fill="#e8eef7" opacity=".7">
+                <rect x="62" y="48" width="140" height="9" rx="4.5"/>
+                <rect x="62" y="70" width="196" height="9" rx="4.5" opacity=".6"/>
+                <rect x="62" y="92" width="168" height="9" rx="4.5" opacity=".45"/>
+                <rect x="62" y="114" width="120" height="9" rx="4.5" opacity=".35"/>
+              </g>
+              <rect x="62" y="70" width="196" height="9" rx="4.5" fill="#37f2c1" opacity=".85"/>
+              <circle cx="248" cy="52" r="10" fill="#ff5a4d"/>
+              <path d="M244 52l3 3 6-7" stroke="#fff" stroke-width="2" fill="none"/>
+            </svg>
+          </div>
+          <div class="tc-video-body">
+            <h3>赛制条文逐条读：哪些细节最容易被驳回</h3>
+            <p>把官方条文转成白话清单，逐项对照常见驳回原因，附预检表。</p>
+            <div class="tc-video-tags"><span class="tc-chip tc-chip-red">必看</span><span class="tc-chip">条文</span></div>
+            <div class="tc-video-meta">
+              <span class="tc-author-line"><span class="tc-avatar" style="background:linear-gradient(140deg,#c79bff,#6a34b8)">简</span>简竹</span>
+              <span class="tc-actions"><button class="tc-act-btn" type="button" data-tc-like>♡ 2.1万</button></span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 创作者 -->
+  <section class="tc-section tc-section-alt" id="tc-creators">
+    <div class="tc-wrap">
+      <div class="tc-sec-head">
+        <div>
+          <span class="tc-eyebrow">Creators</span>
+          <h2 class="tc-h2">创作者<em>矩阵</em>：爆料背后的人</h2>
+          <p class="tc-sec-desc">平台认证的在地观察员、评审观察嘉宾与影像创作者，他们既是参赛者，也是把赛事讲清楚的人。</p>
+        </div>
+        <a class="tc-more-link" href="#tc-stories">看他们的随笔 →</a>
+      </div>
+
+      <div class="tc-creator-row">
+        <article class="tc-creator-card">
+          <div class="tc-creator-avatar" style="background:linear-gradient(140deg,#37f2c1,#0f8f76)">岚</div>
+          <h3>岚序</h3>
+          <div class="tc-creator-field">赛事观察 · 深度解析</div>
+          <p>连续三届跟踪城市影像主题大赛，擅长把评审笔记翻译成参赛者能用的判断依据。</p>
+          <div class="tc-creator-nums"><span><b>128</b>作品</span><span><b>6.4万</b>关注</span></div>
+          <button class="tc-creator-more" type="button" data-tc-author="岚序|赛事观察 · 深度解析|连续三届跟踪城市影像主题大赛，擅长把评审笔记翻译成参赛者能用的判断依据。">查看档案</button>
+        </article>
+
+        <article class="tc-creator-card">
+          <div class="tc-creator-avatar" style="background:linear-gradient(140deg,#ffc247,#c47a12)">迟</div>
+          <h3>迟野</h3>
+          <div class="tc-creator-field">访谈 · 评审沟通</div>
+          <p>负责评审访谈与规则沟通，习惯先问「这条规则为谁而设」，再给出可执行建议。</p>
+          <div class="tc-creator-nums"><span><b>86</b>作品</span><span><b>4.1万</b>关注</span></div>
+          <button class="tc-creator-more" type="button" data-tc-author="迟野|访谈 · 评审沟通|负责评审访谈与规则沟通，习惯先问规则为谁而设，再给出可执行建议。">查看档案</button>
+        </article>
+
+        <article class="tc-creator-card">
+          <div class="tc-creator-avatar" style="background:linear-gradient(140deg,#5ad1ff,#1a6fa8)">未</div>
+          <h3>未白</h3>
+          <div class="tc-creator-field">剪辑工作流 · 教程</div>
+          <p>后期出身，专注把复杂的剪辑流程拆成可复用步骤，帮新人缩短交片时间。</p>
+          <div class="tc-creator-nums"><span><b>64</b>作品</span><span><b>3.8万</b>关注</span></div>
+          <button class="tc-creator-more" type="button" data-tc-author="未白|剪辑工作流 · 教程|后期出身，专注把复杂的剪辑流程拆成可复用步骤，帮新人缩短交片时间。">查看档案</button>
+        </article>
+
+        <article class="tc-creator-card">
+          <div class="tc-creator-avatar" style="background:linear-gradient(140deg,#ff8a6b,#c2401f)">南</div>
+          <h3>南渠</h3>
+          <div class="tc-creator-field">在地文化 · 城市探索</div>
+          <p>常驻老街区拍摄，擅长在一条巷子里找到三种叙事，作品多次入围纪实单元。</p>
+          <div class="tc-creator-nums"><span><b>52</b>作品</span><span><b>2.9万</b>关注</span></div>
+          <button class="tc-creator-more" type="button" data-tc-author="南渠|在地文化 · 城市探索|常驻老街区拍摄，擅长在一条巷子里找到三种叙事，作品多次入围纪实单元。">查看档案</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 幕后随笔 -->
+  <section class="tc-section" id="tc-stories">
+    <div class="tc-wrap">
+      <div class="tc-sec-head">
+        <div>
+          <span class="tc-eyebrow">Notes</span>
+          <h2 class="tc-h2">幕后<em>随笔</em>：爆料之外的真实</h2>
+          <p class="tc-sec-desc">赛事不只是名单与分数，还有等待、犹疑与深夜里的一次重剪。这里记录平台编辑与创作者的真实片段。</p>
+        </div>
+      </div>
+
+      <div class="tc-story-grid">
+        <article class="tc-story-card">
+          <span class="tc-chip">编辑手记</span>
+          <h3>核一条爆料，我们通常要打三个电话</h3>
+          <p>名单公布那天，后台涌入上百条消息。有人问自己的编号，有人问评审偏好。我们把每条能核实的爆料都标上时间与来源，因为对参赛者来说，一条错误信息可能意味着重剪一整晚。核实流程不算快，但我们宁愿慢半天。</p>
+          <span class="tc-story-sign">—— 岚序 · 11月19日凌晨</span>
+        </article>
+
+        <article class="tc-story-card">
+          <span class="tc-chip tc-chip-amber">创作者记录</span>
+          <h3>第三次投稿，我终于把那句台词删掉了</h3>
+          <p>前两次都在同一处被驳回：旁白说得太多。评审建议我让画面自己讲话。这次我把开场两分钟的解说全删了，只留下脚步声和卷帘门的声音。交片那晚我在楼下坐到十二点，第一次觉得作品是完整的。</p>
+          <span class="tc-story-sign">—— 南渠 · 11月16日</span>
+        </article>
+
+        <article class="tc-story-card">
+          <span class="tc-chip tc-chip-red">评审侧记</span>
+          <h3>好的执行方案，读起来像一张施工图</h3>
+          <p>评审会上最常被讨论的不是创意多惊艳，而是能不能拍出来。有份方案把三天拍摄拆成十二个时段，连备用天气都写了。评委看完只说了句「这个可以拍」。后来它拿了赛道三的高分。创意需要野心，执行需要诚实。</p>
+          <span class="tc-story-sign">—— 迟野 · 11月15日</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 品牌故事 / 深度解析 -->
+  <section class="tc-section tc-section-alt" id="tc-about">
+    <div class="tc-wrap">
+      <div class="tc-sec-head">
+        <div>
+          <span class="tc-eyebrow">Brand Story</span>
+          <h2 class="tc-h2">关于<em>主题大赛爆料平台</em></h2>
+          <p class="tc-sec-desc">一个由影像从业者与赛事观察员共同维护的资讯品牌，专注把大赛讲清楚、讲准确、讲得可用。</p>
+        </div>
+      </div>
+
+      <div class="tc-about-grid">
+        <div class="tc-about-col">
+          <p>主题大赛爆料平台创立于影像内容快速增长的年代。我们注意到一个矛盾：每年有大量主题大赛在各地举办，参赛者却常常困在信息缝隙里——赛制条文写在长文档里，评审偏好藏在口耳相传中，入围名单分散在不同渠道。于是我们决定做一件事：把赛事信息整理成可读、可查、可用的内容，用视频与图文的方式持续更新。</p>
+          <p>作为深耕赛事资讯的垂直领域品牌，平台建立了「编辑核实 + 观察员反馈 + 官方发布对照」的三层信息机制。凡进入实时爆料流的条目，都会标注时间、来源类型与核实状态；无法确认的信息不会以确定口吻呈现。这套机制让我们在参赛者中积累了稳定口碑，也让平台成为不少组委会愿意主动同步信息的合作对象。</p>
+          <h3>我们提供的四类内容</h3>
+          <p>第一类是赛程与规则变动，追求快与准；第二类是评审视角的深度解析，帮助参赛者理解判断标准；第三类是创作者访谈与幕后记录，呈现作品背后的真实过程；第四类是可直接使用的工具型内容，例如投稿预检清单、剪辑工作流与脚本自查表。四类内容互相支撑，构成平台的内容生态。</p>
+          <h3>关于团队与运营</h3>
+          <p>团队规模不大，由内容编辑、影像创作者与产品工程师组成。我们坚持以企业级标准做内容运营：每条爆料有责任人，每个专题有更新节奏，每份工具清单都会随赛制变化修订。平台不接受以删除负面核实信息为条件的商业合作，这是我们能持续被信赖的前提。</p>
+        </div>
+        <div class="tc-about-col">
+          <h3>品牌理念：真实、可用、陪伴成长</h3>
+          <p>真实是底线。赛事信息一旦失真，受影响的是具体的人在具体的时间里的具体投入。可用是标准，我们把「能不能帮参赛者做决定」作为内容是否值得发布的判断依据。陪伴成长是长期目标，很多创作者从第一次投稿时关注我们，到后来带着作品回到平台做访谈，这种循环是平台最看重的价值。</p>
+          <h3>内容生态与社会责任</h3>
+          <p>平台与多家影像机构、高校创作社团与地方文化组织保持合作，为新人提供展示窗口与评审反馈渠道。我们每年参与组织面向学生与自由创作者的公益评片活动，邀请评审以匿名方式给出具体修改建议，不收取费用。这类活动不追求流量，但确实让一部分人第一次知道自己的作品问题出在哪里。</p>
+          <h3>持续运营中的承诺</h3>
+          <p>平台承诺：所有标注「已核实」的爆料均可追溯来源类型；所有专题在赛事收官后仍保留可访问，方便后来者查阅；所有工具型内容保持免费开放。我们不追求把每条信息都做成爆款，更在意它是否在关键时刻真的帮上了忙。</p>
+          <div class="tc-about-fact">
+            <strong>平台小档案：</strong>持续运营 6 年 · 覆盖 128 场在办主题大赛 · 累计收录爆料 2.4 万条 · 认证创作者与评审观察员 860+ 位 · 每年发布免费工具清单 12 期 · 编辑部承诺 48 小时内响应用户纠错反馈。
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 合作品牌 + 动态 -->
+  <section class="tc-section" id="tc-news">
+    <div class="tc-wrap">
+      <div class="tc-sec-head">
+        <div>
+          <span class="tc-eyebrow">Partners &amp; Updates</span>
+          <h2 class="tc-h2">合作<em>伙伴</em>与企业动态</h2>
+          <p class="tc-sec-desc">与我们一起把赛事信息做得更清楚的组织，以及平台近期的官方发布。</p>
+        </div>
+      </div>
+
+      <div class="tc-partner-grid" style="margin-bottom:40px">
+        <div class="tc-partner">城市影像组委会</div>
+        <div class="tc-partner">青年创意联盟</div>
+        <div class="tc-partner">北岸影视基地</div>
+        <div class="tc-partner">拾光剪辑社</div>
+        <div class="tc-partner">在地文化档案室</div>
+        <div class="tc-partner">光影高校创作社</div>
+      </div>
+
+      <div class="tc-news-list">
+        <article class="tc-news-item">
+          <div class="tc-news-date">11/19<span>2026</span></div>
+          <div>
+            <h3>官方发布：实时爆料流新增「来源类型」与「核实状态」标签</h3>
+            <p>为提升信息可判断性，所有新发布条目将同时展示来源类型与核实状态，历史条目将在两周内完成补齐。</p>
+          </div>
+        </article>
+        <article class="tc-news-item">
+          <div class="tc-news-date">11/17<span>2026</span></div>
+          <div>
+            <h3>平台与三家高校创作社达成年度合作，开放公益评片通道</h3>
+            <p>合作期内，学生创作者可提交作品获得匿名评审建议，平台将整理共性问题并发布公开解析。</p>
+          </div>
+        </article>
+        <article class="tc-news-item">
+          <div class="tc-news-date">11/14<span>2026</span></div>
+          <div>
+            <h3>创作灵感工具上线：脚本结构自检与标题建议</h3>
+            <p>工具以清单形式呈现，帮助参赛者在提交前检查叙事结构、节奏与标题信息量，全部功能免费开放。</p>
+          </div>
+        </article>
+        <article class="tc-news-item">
+          <div class="tc-news-date">11/10<span>2026</span></div>
+          <div>
+            <h3>年度「爆料质量报告」发布：纠错响应平均耗时缩短至9小时</h3>
+            <p>报告显示平台纠错响应效率较去年提升明显，用户反馈渠道的处理满意度持续上升。</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="tc-section tc-section-alt" id="tc-faq">
+    <div class="tc-wrap">
+      <div class="tc-sec-head" style="justify-content:center;text-align:center">
+        <div>
+          <span class="tc-eyebrow" style="justify-content:center">FAQ</span>
+          <h2 class="tc-h2">帮助<em>中心</em></h2>
+          <p class="tc-sec-desc" style="margin-left:auto;margin-right:auto">关于爆料、投稿与内容使用的常见问题，如仍未解决可通过联系入口与我们沟通。</p>
+        </div>
+      </div>
+
+      <div class="tc-faq">
+        <details open>
+          <summary>爆料信息多久更新一次？会标注来源吗？</summary>
+          <div class="tc-faq-body">实时爆料流在工作日通常每天更新 5 至 10 条，赛事密集期会增加频次。每条条目均标注发布时间、来源类型（如官方发布、组委会公示、参赛者反馈）与核实状态。无法确认的信息不会以确定口吻呈现。</div>
+        </details>
+        <details>
+          <summary>我发现爆料内容有误，如何反馈？</summary>
+          <div class="tc-faq-body">可通过联系入口提交纠错，说明条目标题、错误点与可参考的依据。编辑部承诺 48 小时内响应，核实后会更新条目并标注修订时间。涉及关键信息的错误会单独发布说明。</div>
+        </details>
+        <details>
+          <summary>平台上的视频内容可以转载吗？</summary>
+          <div class="tc-faq-body">平台原创内容欢迎在注明来源与作者的前提下非商业转载；商业用途需提前取得授权。创作者个人作品版权归创作者所有，转载前请与作者本人确认。平台不提供作品文件的下载服务。</div>
+        </details>
+        <details>
+          <summary>如何成为平台认证的创作者或观察员？</summary>
+          <div class="tc-faq-body">需提交不少于三件与主题大赛相关的原创作品或观察记录，并说明擅长的方向。审核重点在于内容是否具体、信息是否可靠、表达是否清晰。通过后会开通专属档案页与爆料提交通道。</div>
+        </details>
+        <details>
+          <summary>投稿被驳回后还能重新提交吗？</summary>
+          <div class="tc-faq-body">多数赛事允许在投稿期内修改后重新提交，具体以该赛事规则为准。建议先查看驳回原因，对照平台帮助中心的预检清单逐项修正，特别是声音电平、字幕授权与画幅参数这三类高频问题。</div>
+        </details>
+        <details>
+          <summary>平台会收取参赛费用或推荐费用吗？</summary>
+          <div class="tc-faq-body">不会。平台不参与任何赛事的报名收费，也不提供付费推荐位。任何以本平台名义收取费用的行为均与我们无关，请通过官方联系渠道核实。</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 联系 -->
+  <section class="tc-section" id="tc-contact">
+    <div class="tc-wrap">
+      <div class="tc-sec-head">
+        <div>
+          <span class="tc-eyebrow">Contact</span>
+          <h2 class="tc-h2">联系<em>与爆料投递</em></h2>
+          <p class="tc-sec-desc">赛事变动、评审观察、作品线索或合作洽谈，都欢迎直接告诉我们。</p>
+        </div>
+      </div>
+
+      <div class="tc-contact-grid">
+        <div class="tc-news-list">
+          <article class="tc-news-item">
+            <div class="tc-news-date">编辑部<span>内容</span></div>
+            <div>
+              <h3>爆料与纠错</h3>
+              <p>请附上赛事名称、条目时间与可参考依据，便于我们快速核实。工作时段内通常两小时内回复。</p>
+            </div>
+          </article>
+          <article class="tc-news-item">
+            <div class="tc-news-date">合作<span>品牌</span></div>
+            <div>
+              <h3>赛事合作与专题共建</h3>
+              <p>组委会、影像机构与创作社团可申请专题共建，平台保留内容独立性，不接受以删改核实信息为条件的合作。</p>
+            </div>
+          </article>
+          <article class="tc-news-item">
+            <div class="tc-news-date">投稿<span>创作者</span></div>
+            <div>
+              <h3>作品与访谈投递</h3>
+              <p>欢迎提交与主题大赛相关的原创视频、幕后记录与观察笔记，通过初筛后会安排编辑对接。</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="tc-contact-card">
+          <h3>官方联系渠道</h3>
+          <p>平台为持续运营的企业级内容品牌，所有对外沟通均通过以下官方渠道进行，请勿轻信其他来源。</p>
+          <div class="tc-contact-line"><b>编辑部</b><span>editor@tc-radar-media.cn</span></div>
+          <div class="tc-contact-line"><b>合作洽谈</b><span>partner@tc-radar-media.cn</span></div>
+          <div class="tc-contact-line"><b>投稿通道</b><span>creator@tc-radar-media.cn</span></div>
+          <div class="tc-contact-line"><b>响应时段</b><span>工作日 10:00 - 19:00</span></div>
+          <div class="tc-contact-btns">
+            <button class="tc-btn-main" type="button" data-tc-modal="submit">提交爆料</button>
+            <button class="tc-btn-line" type="button" data-tc-modal="share">分享页面</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="tc-footer">
+  <div class="tc-wrap">
+    <div class="tc-footer-grid">
+      <div>
+        <div class="tc-brand" style="margin-bottom:14px">
+          <span class="tc-brand-mark">爆</span>
+          <span>
+            <span class="tc-brand-name">主题大赛爆料平台</span>
+            <span class="tc-brand-sub">LIVE CONTEST RADAR</span>
+          </span>
+        </div>
+        <p>主题大赛每日实时爆料平台官方网站，专注赛事资讯、评审解析与创作者影像内容，持续运营，值得信赖。</p>
+      </div>
+      <div>
+        <h4>内容板块</h4>
+        <p><a href="#tc-live">实时爆料</a></p>
+        <p><a href="#tc-topics">热点专题</a></p>
+        <p><a href="#tc-videos">精选影像</a></p>
+        <p><a href="#tc-stories">幕后随笔</a></p>
+      </div>
+      <div>
+        <h4>关于平台</h4>
+        <p><a href="#tc-about">品牌故事</a></p>
+        <p><a href="#tc-creators">创作者矩阵</a></p>
+        <p><a href="#tc-news">企业动态</a></p>
+        <p><a href="#tc-faq">帮助中心</a></p>
+      </div>
+      <div>
+        <h4>参与方式</h4>
+        <p><a href="#tc-contact">提交爆料</a></p>
+        <p><a href="#tc-contact">合作洽谈</a></p>
+        <p><a href="#tc-contact">作品投递</a></p>
+        <p><button type="button" data-tc-modal="submit" style="font-size:13px;color:#93a7c2">线上投稿入口</button></p>
+      </div>
+    </div>
+    <div class="tc-footer-bottom">
+      <span>© 2026 主题大赛爆料平台 版权所有 · 官方网站 · 持续运营中</span>
+      <span>原创内容 · 正版授权 · 品质社区 · 用户至上</span>
+    </div>
+  </div>
+</footer>
+
+<button class="tc-to-top" id="tcToTop" type="button" aria-label="回到顶部">↑</button>
+<div class="tc-toast" id="tcToast" role="status" aria-live="polite"></div>
+
+<!-- 弹窗：爆料投稿 -->
+<div class="tc-modal-mask" id="tcModalSubmit" role="dialog" aria-modal="true" aria-labelledby="tcSubmitTitle">
+  <div class="tc-modal">
+    <button class="tc-modal-close" type="button" data-tc-close aria-label="关闭">×</button>
+    <h3 id="tcSubmitTitle">提交爆料线索</h3>
+    <p>请尽量填写完整信息，编辑部会根据线索价值安排核实与跟进。请勿提交未获授权的他人隐私内容。</p>
+    <label for="tcSubEvent">赛事名称</label>
+    <input id="tcSubEvent" type="text" placeholder="例如：第12届城市影像主题大赛">
+    <label for="tcSubType">线索类型</label>
+    <select id="tcSubType">
+      <option>赛程与名单变动</option>
+      <option>评审规则与偏好</option>
+      <option>投稿技术问题</option>
+      <option>创作者故事线索</option>
+      <option>其他</option>
+    </select>
+    <label for="tcSubDetail">线索说明</label>
+    <textarea id="tcSubDetail" placeholder="请描述具体内容、发生时间与可参考依据"></textarea>
+    <div class="tc-modal-foot">
+      <button class="tc-btn-line" type="button" data-tc-close>取消</button>
+      <button class="tc-btn-main" type="button" id="tcSubmitSend">提交线索</button>
+    </div>
+  </div>
+</div>
+
+<!-- 弹窗：分享 -->
+<div class="tc-modal-mask" id="tcModalShare" role="dialog" aria-modal="true" aria-labelledby="tcShareTitle">
+  <div class="tc-modal">
+    <button class="tc-modal-close" type="button" data-tc-close aria-label="关闭">×</button>
+    <h3 id="tcShareTitle">分享给同行的人</h3>
+    <p>把今日爆料转给一起参赛的伙伴，或复制页面链接保存到自己的清单里。</p>
+    <div class="tc-share-list">
+      <button type="button" data-tc-share="微信">微信</button>
+      <button type="button" data-tc-share="微博">微博</button>
+      <button type="button" data-tc-share="QQ">QQ</button>
+      <button type="button" data-tc-share="朋友圈">朋友圈</button>
+    </div>
+    <label for="tcShareInput">页面链接</label>
+    <input id="tcShareInput" type="text" readonly value="主题大赛每日实时爆料平台 · 实时爆料与创作者影像">
+    <div class="tc-modal-foot">
+      <button class="tc-btn-line" type="button" data-tc-close>关闭</button>
+      <button class="tc-btn-main" type="button" id="tcCopyLink">复制链接</button>
+    </div>
+  </div>
+</div>
+
+<!-- 弹窗：作者档案 -->
+<div class="tc-modal-mask" id="tcModalAuthor" role="dialog" aria-modal="true" aria-labelledby="tcAuthorTitle">
+  <div class="tc-modal">
+    <button class="tc-modal-close" type="button" data-tc-close aria-label="关闭">×</button>
+    <h3 id="tcAuthorTitle">创作者档案</h3>
+    <p id="tcAuthorField"></p>
+    <p id="tcAuthorDesc" style="color:#c3d2e6"></p>
+    <div class="tc-modal-foot">
+      <button class="tc-btn-line" type="button" data-tc-close>关闭</button>
+      <button class="tc-btn-main" type="button" id="tcAuthorFollow">关注这位创作者</button>
+    </div>
+  </div>
+</div>
+
+<!-- 弹窗：评论 -->
+<div class="tc-modal-mask" id="tcModalComment" role="dialog" aria-modal="true" aria-labelledby="tcCommentTitle">
+  <div class="tc-modal">
+    <button class="tc-modal-close" type="button" data-tc-close aria-label="关闭">×</button>
+    <h3 id="tcCommentTitle">参与讨论</h3>
+    <p>理性表达，尊重创作者。评论将在提交后即时显示于本地列表。</p>
+    <label for="tcCommentInput">写点什么</label>
+    <textarea id="tcCommentInput" placeholder="例如：这条爆料对准备投稿的人很有用，尤其是声音电平那一项"></textarea>
+    <div class="tc-modal-foot">
+      <button class="tc-btn-line" type="button" data-tc-close>取消</button>
+      <button class="tc-btn-main" type="button" id="tcCommentSend">发布评论</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- 工具 ---------- */
+  var toastEl = document.getElementById('tcToast');
+  var toastTimer = null;
+  function toast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add('is-show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toastEl.classList.remove('is-show'); }, 2000);
+  }
+
+  /* ---------- 移动端导航折叠 ---------- */
+  var burger = document.getElementById('tcBurger');
+  var nav = document.getElementById('tcMainNav');
+  burger.addEventListener('click', function(){
+    var open = nav.classList.toggle('is-open');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  nav.addEventListener('click', function(e){
+    if(e.target.tagName === 'A'){
+      nav.classList.remove('is-open');
+      burger.setAttribute('aria-expanded','false');
+    }
+  });
+
+  /* ---------- 搜索反馈 ---------- */
+  var searchInput = document.getElementById('tcSearchInput');
+  var searchBtn = document.getElementById('tcSearchBtn');
+  var feedback = document.getElementById('tcSearchFeedback');
+  var suggestPool = [
+    '城市影像主题大赛 入围名单',
+    '青年创意挑战赛 评审分组',
+    '投稿系统 4GB 上传',
+    '声音电平 驳回原因',
+    '脚本可执行性 评分维度',
+    '新人赛道 六步清单',
+    '剪辑工作流 四轨剪辑法',
+    '在地文化 人物线索'
+  ];
+  function positionFeedback(){
+    var rect = searchInput.getBoundingClientRect();
+    feedback.style.left = Math.max(10, Math.min(rect.left, window.innerWidth - 330)) + 'px';
+    feedback.style.top = (rect.bottom + 8) + 'px';
+  }
+  function renderFeedback(kw){
+    var list = suggestPool.filter(function(s){ return !kw || s.indexOf(kw) > -1; });
+    if(!list.length){ list = suggestPool.slice(0,4); }
+    var html = '<p>' + (kw ? '与「' + kw.replace(/[<>&]/g,'') + '」相关的内容' : '热门搜索') + '</p>';
+    list.slice(0,5).forEach(function(s){
+      html += '<button type="button" data-tc-suggest="' + s.replace(/"/g,'') + '">' + s + '</button>';
+    });
+    feedback.innerHTML = html;
+    positionFeedback();
+    feedback.classList.add('is-open');
+  }
+  searchBtn.addEventListener('click', function(){
+    var kw = searchInput.value.trim();
+    renderFeedback(kw);
+    if(kw){ toast('已为你筛选「' + kw + '」相关爆料'); }
+  });
+  searchInput.addEventListener('focus', function(){ renderFeedback(searchInput.value.trim()); });
+  searchInput.addEventListener('input', function(){
+    if(feedback.classList.contains('is-open')){ renderFeedback(searchInput.value.trim()); }
+  });
+  document.addEventListener('click', function(e){
+    if(!feedback.contains(e.target) && e.target !== searchInput && e.target !== searchBtn){
+      feedback.classList.remove('is-open');
+    }
+  });
+  feedback.addEventListener('click', function(e){
+    var btn = e.target.closest('[data-tc-suggest]');
+    if(btn){
+      searchInput.value = btn.getAttribute('data-tc-suggest');
+      feedback.classList.remove('is-open');
+      toast('已定位到「' + searchInput.value + '」');
+      var target = document.getElementById('tc-live');
+      if(target){ target.scrollIntoView({behavior:'smooth', block:'start'}); }
+    }
+  });
+  window.addEventListener('resize', function(){
+    if(feedback.classList.contains('is-open')){ positionFeedback(); }
+  });
+
+  /* ---------- 点赞 / 收藏 ---------- */
+  document.addEventListener('click', function(e){
+    var likeBtn = e.target.closest('[data-tc-like]');
+    if(likeBtn){
+      e.preventDefault();
+      var liked = likeBtn.classList.toggle('is-liked');
+      var txt = likeBtn.textContent.replace(/[♡♥\s]/g,'');
+      var num = parseFloat(txt.replace(/万/,'')) * (txt.indexOf('万') > -1 ? 10000 : 1);
+      if(!isFinite(num)){ num = 0; }
+      num = liked ? num + 1 : Math.max(0, num - 1);
+      var out = num >= 10000 ? (num/10000).toFixed(1).replace(/\.0$/,'') + '万' : String(num);
+      likeBtn.textContent = (liked ? '♥ ' : '♡ ') + out;
+      toast(liked ? '已点赞，感谢支持' : '已取消点赞');
+      return;
+    }
+    var saveBtn = e.target.closest('[data-tc-save]');
+    if(saveBtn){
+      e.preventDefault();
+      var saved = saveBtn.classList.toggle('is-saved');
+      saveBtn.textContent = saved ? '★ 已收藏' : '☆ 收藏';
+      toast(saved ? '已加入你的收藏清单' : '已取消收藏');
+      return;
+    }
+    var commentBtn = e.target.closest('[data-tc-comment]');
+    if(commentBtn){
+      e.preventDefault();
+      openModal('tcModalComment');
+      return;
+    }
+    var authorBtn = e.target.closest('[data-tc-author]');
+    if(authorBtn){
+      e.preventDefault();
+      var parts = authorBtn.getAttribute('data-tc-author').split('|');
+      document.getElementById('tcAuthorTitle').textContent = parts[0] || '创作者档案';
+      document.getElementById('tcAuthorField').textContent = parts[1] || '';
+      document.getElementById('tcAuthorDesc').textContent = parts[2] || '';
+      openModal('tcModalAuthor');
+      return;
+    }
+    var openBtn = e.target.closest('[data-tc-modal]');
+    if(openBtn){
+      e.preventDefault();
+      var key = openBtn.getAttribute('data-tc-modal');
+      if(key === 'submit'){ openModal('tcModalSubmit'); }
+      if(key === 'share'){ openModal('tcModalShare'); }
+    }
+  });
+
+  /* ---------- 弹窗控制 ---------- */
+  var masks = Array.prototype.slice.call(document.querySelectorAll('.tc-modal-mask'));
+  function openModal(id){
+    var m = document.getElementById(id);
+    if(!m){ return; }
+    masks.forEach(function(x){ x.classList.remove('is-open'); });
+    m.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeAllModals(){
+    masks.forEach(function(x){ x.classList.remove('is-open'); });
+    document.body.style.overflow = '';
+  }
+  masks.forEach(function(mask){
+    mask.addEventListener('click', function(e){
+      if(e.target === mask || e.target.closest('[data-tc-close]')){
+        closeAllModals();
+      }
+    });
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){ closeAllModals(); }
+  });
+
+  /* ---------- 提交爆料 ---------- */
+  document.getElementById('tcSubmitSend').addEventListener('click', function(){
+    var ev = document.getElementById('tcSubEvent').value.trim();
+    var detail = document.getElementById('tcSubDetail').value.trim();
+    if(!ev){ toast('请先填写赛事名称'); return; }
+    if(detail.length < 6){ toast('线索说明至少写 6 个字'); return; }
+    closeAllModals();
+    toast('线索已提交，编辑部会尽快核实');
+    document.getElementById('tcSubEvent').value = '';
+    document.getElementById('tcSubDetail').value = '';
+  });
+
+  /* ---------- 分享 / 复制链接 ---------- */
+  var shareButtons = document.querySelectorAll('[data-tc-share]');
+  Array.prototype.forEach.call(shareButtons, function(btn){
+    btn.addEventListener('click', function(){
+      toast('已生成' + btn.getAttribute('data-tc-share') + '分享卡片');
+    });
+  });
+  document.getElementById('tcCopyLink').addEventListener('click', function(){
+    var val = document.getElementById('tcShareInput').value;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(val).then(function(){
+        toast('链接已复制到剪贴板');
+      }, function(){
+        toast('复制失败，请手动选择文本');
+      });
+    } else {
+      toast('当前环境不支持自动复制，请手动选择文本');
+    }
+  });
+
+  /* ---------- 评论发布 ---------- */
+  document.getElementById('tcCommentSend').addEventListener('click', function(){
+    var val = document.getElementById('tcCommentInput').value.trim();
+    if(val.length < 2){ toast('评论至少写 2 个字'); return; }
+    document.getElementById('tcCommentInput').value = '';
+    closeAllModals();
+    toast('评论已发布，感谢你的参与');
+  });
+
+  /* ---------- 关注作者 ---------- */
+  document.getElementById('tcAuthorFollow').addEventListener('click', function(){
+    closeAllModals();
+    toast('已关注，后续动态会在首页提示');
+  });
+
+  /* ---------- 回到顶部 ---------- */
+  var toTop = document.getElementById('tcToTop');
+  window.addEventListener('scroll', function(){
+    if(window.scrollY > 520){ toTop.classList.add('is-show'); }
+    else { toTop.classList.remove('is-show'); }
+    if(feedback.classList.contains('is-open')){ positionFeedback(); }
+  }, {passive:true});
+  toTop.addEventListener('click', function(){
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  /* ---------- 数字滚动（首屏数据） ---------- */
+  var statEls = document.querySelectorAll('.tc-hero-stats b');
+  var statDone = false;
+  function animateStats(){
+    if(statDone){ return; }
+    var trigger = document.querySelector('.tc-hero-stats');
+    if(!trigger){ return; }
+    var rect = trigger.getBoundingClientRect();
+    if(rect.top < window.innerHeight - 40){
+      statDone = true;
+      Array.prototype.forEach.call(statEls, function(el){
+        var raw = el.textContent;
+        var m = raw.match(/^([\d.]+)(.*)$/);
+        if(!m){ return; }
+        var target = parseFloat(m[1]);
+        var suffix = m[2] || '';
+        var start = 0, dur = 900, t0 = null;
+        var isFloat = raw.indexOf('.') > -1;
+        function step(ts){
+          if(!t0){ t0 = ts; }
+          var p = Math.min(1, (ts - t0) / dur);
+          var eased = 1 - Math.pow(1 - p, 3);
+          var cur = target * eased;
+          el.textContent = (isFloat ? cur.toFixed(1) : Math.round(cur)) + suffix;
+          if(p < 1){ requestAnimationFrame(step); }
+          else { el.textContent = raw; }
+        }
+        requestAnimationFrame(step);
+      });
+    }
+  }
+  window.addEventListener('scroll', animateStats, {passive:true});
+  animateStats();
+})();
+</script>
+</body>
+                                                           </html>
